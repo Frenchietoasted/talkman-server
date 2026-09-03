@@ -1,10 +1,12 @@
 //bun --hot run index.ts to run the server with hot reloading
 import express from "express";
+import dotenv from "dotenv";
 import { WebSocketServer } from "ws";
 
 const app = express();
 let users: { name: string, url: string }[] = [];
-const wss = new WebSocketServer({ port: 8080, clientTracking: true });
+dotenv.config();
+const wss = new WebSocketServer({ port: Number(process.env.PORT) || 8080, clientTracking: true });
 
 wss.on("connection", function connection(ws) {
   ws.send("welcome to the chat, what's your name? ");

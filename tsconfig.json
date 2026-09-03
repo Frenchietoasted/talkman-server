@@ -23,11 +23,7 @@
     "noPropertyAccessFromIndexSignature": false
   },
   "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts",
-    ".next/dev/types/**/*.ts",
-    "**/*.mts"
+    "**/*.ts"
   ],
   "exclude": ["node_modules"]
 }
