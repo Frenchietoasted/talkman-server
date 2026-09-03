@@ -1,6 +1,11 @@
 {
   "lockfileVersion": 1,
   "configVersion": 1,
+  "scripts": {
+    "build": "tsc",
+    "dev": "bun --hot run index.ts",
+    "start" : "node index.js",
+  },
   "workspaces": {
     "": {
       "name": "talkmanserver",
