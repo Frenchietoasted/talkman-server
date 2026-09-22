@@ -3,7 +3,9 @@ node_modules
 
 #bun
 bun.lock
+
 # output
+*.js
 out
 dist
 *.tgz
