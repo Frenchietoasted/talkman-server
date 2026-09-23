@@ -4,7 +4,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "build": "tsc & npm i"
+    "build": "tsc | npm i"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",

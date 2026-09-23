@@ -5,15 +5,23 @@ import { createServer } from "http";
 import { WebSocketServer } from "ws";
 import { User, Room } from "./models/chat-entities.js";
 import { greet } from "./services/chat-services.js";
+import cors from "cors";
 dotenv.config();
 const PORT = Number(process.env.PORT) || 8080;
 const app = express();
+app.use(cors({
+    origin: [
+        "http://localhost:3000",
+        "https://talkman-client-l2ijc207e-steve-dmellos-projects.vercel.app",
+        "https://talkman-client-one.vercel.app"
+    ],
+    credentials: true,
+}));
 const server = createServer(app);
 const wss = new WebSocketServer({ server });
 var id = 1;
 var rooms = new Map();
 wss.on("connection", (ws, request) => {
-    var authenticated = false;
     // // const cookies = request.headers.cookie?.toLowerCase();
     // // if (!cookies) {
     // //   ws.send(JSON.stringify({ "type": "error", "message": "No cookies somehow" }));
@@ -42,12 +50,13 @@ wss.on("connection", (ws, request) => {
                 "message": "How did you manage to send nothing"
             }));
         }
-        if (user.authenticated !== false) {
+        if (user.authenticated === true) {
             console.log("received:", received);
             rooms.get(user.roomId)?.broadCast(user.username, received);
         }
         else {
-            if (received.type == +"join" && received.username && received.roomId) {
+            console.log(received);
+            if (received.type === "join" && received.username && received.roomId) {
                 user.username = received.username;
                 user.roomId = received.roomId;
                 if (rooms.has(user.roomId)) {
@@ -56,6 +65,7 @@ wss.on("connection", (ws, request) => {
                 }
                 else {
                     rooms.set(user.roomId, new Room(user));
+                    rooms.get(user.roomId)?.broadCast("system", greet(user.username, user.roomId));
                 }
                 user.authenticated = true;
             }
@@ -74,5 +84,12 @@ server.listen(PORT, () => {
 });
 app.get("/api/getAllMessages/:id", (req, res) => {
     const roomId = req.params.id;
-    res.send(rooms.get(roomId)?.messageLog);
+    const room = rooms.get(roomId);
+    if (room == null)
+        return res.send([]);
+    else
+        res.send(room.messageLog ?? []);
+});
+app.get("/api/health", (_req, res) => {
+    res.json({ status: "ok" });
 });

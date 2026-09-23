@@ -36,20 +36,20 @@ export class Room {
     });
   }
   broadCast(username: string, message: Message) {
-    const timeStamp = new Date().toISOString();
     this.messageLog.push({
       "id": message.id,
       "sender": username,
       "text": message.text,
-      "timeStamp": timeStamp
+      "timeStamp": message.timeStamp
     })
+    console.log("Timestamp in class:" + message.timeStamp)
     this.users.forEach((user) => {
       user.ws.send(JSON.stringify({
          "id": message.id,
          "type": "message",
          "sender" : username,
          "text": message.text,
-         "timeStamp": timeStamp
+         "timeStamp": message.timeStamp
       }));
     });
   }

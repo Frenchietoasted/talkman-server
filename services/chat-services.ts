@@ -15,12 +15,12 @@ export function parseCookies(cookieString : string ): (string | undefined)[] {
   return [username, roomId];
 }
 export function greet(username: string, roomId: string): Message {
-  const timeStamp = new Date().toISOString();
+  const timestamp = new Date().toISOString();
   return ({
-    "id": 'msg-' + timeStamp,
+    "id": 'msg-' + timestamp,
     "type": "message",
     "sender" : "system",
     "text": `Say hi to ${username}, room ${roomId}`,
-    "timeStamp": timeStamp
+    "timeStamp": timestamp
   })
 }
