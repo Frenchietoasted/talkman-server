@@ -15,7 +15,8 @@ app.use(
 	cors({
 		origin: [
 			"http://localhost:3000",
-			"https://talkman-client-l2ijc207e-steve-dmellos-projects.vercel.app"
+			"https://talkman-client-l2ijc207e-steve-dmellos-projects.vercel.app",
+			"https://talkman-client-one.vercel.app"
 		],
 		credentials: true,
 	})
